@@ -2,7 +2,6 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <h2><b><%= t "edit_something", name: resource_name.to_s.humanize %></b></h2>
-
     <%= form_for(resource, as: resource_name,
       url: registration_path(resource_name), html: { method: :put }) do |f| %>
       <%= devise_error_messages! %>
@@ -52,6 +51,22 @@
         <i><%= t "need_current_password" %></i>
         <%= f.password_field :current_password, autocomplete: "off",
           class: "form-control" %>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-4">
+          <% if resource.avatar_path? %>
+            <%= image_tag resource.avatar_path.url,
+              size: Settings.pictures.avatar_size,
+              class: "avatar-frame" %>
+          <% else %>
+            <%= t "no_avatar" %>
+          <% end %>
+        </div>
+        <div class="form-group col-md-8">
+          <%= f.file_field :avatar_path,
+            accept: Settings.pictures.accepted_files %>
+        </div>
       </div>
 
       <span class="actions">
